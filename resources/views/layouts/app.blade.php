@@ -56,6 +56,11 @@
             width: 24px;
             height: 24px;
         }
+        .ts-wrapper .ts-control {
+            min-height: calc(1.5em + 0.75rem + 2px);
+            padding: 0.375rem 0.75rem;
+            align-items: center;
+        }
     </style>
     @livewireStyles
 </head>

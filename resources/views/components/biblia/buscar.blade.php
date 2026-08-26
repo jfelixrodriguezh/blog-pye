@@ -12,6 +12,17 @@ new class extends Component {
 
     protected $paginationTheme = 'bootstrap';
 
+    public function buscar()
+    {
+        $this->resetPage();
+    }
+
+    public function limpiar()
+    {
+        $this->reset(['termino', 'libroIds']);
+        $this->resetPage();
+    }
+
     #[Url(as: 'q')]
     public string $termino = '';
 
@@ -69,47 +80,62 @@ new class extends Component {
 <div>
     <h1 class="fw-bold mb-4">Buscar en la Biblia</h1>
 
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label small text-muted">Palabra o frase</label>
-                    <input type="text" wire:model.live.debounce.500ms="termino"
-                           class="form-control" placeholder="Ej: trigo, amor, esperanza...">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label small text-muted">Libros (opcional, vacío = toda la Biblia)</label>
-                    <div wire:ignore x-data="{
-                        init() {
-                            new TomSelect(this.$refs.libroSelect, {
-                                maxItems: null,
-                                plugins: ['remove_button'],
-                                onItemAdd: function () {
-                                    this.setTextboxValue('');
-                                    this.refreshOptions();
-                                },
-                                onChange: (value) => {
-                                    $wire.set('libroIds', value.map((v) => parseInt(v)));
-                                },
-                            });
-                        }
-                    }">
-                        <select x-ref="libroSelect" multiple placeholder="Todos los libros...">
-                            @foreach ($this->testamentos as $testamento)
-                                <optgroup label="{{ $testamento->nombre }}">
-                                    @foreach ($testamento->libros as $libro)
-                                        <option value="{{ $libro->id }}" @selected(in_array($libro->id, $libroIds))>
-                                            {{ $libro->nombre }}
-                                        </option>
-                                    @endforeach
-                                </optgroup>
-                            @endforeach
-                        </select>
+    <form wire:submit="buscar"
+        x-data="{ tomSelectInstance: null }"
+        x-init="
+            tomSelectInstance = new TomSelect($refs.libroSelect, {
+                maxItems: null,
+                plugins: ['remove_button'],
+                onItemAdd: function () {
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                onChange: (value) => {
+                    $wire.set('libroIds', value.map((v) => parseInt(v)));
+                },
+          });
+        ">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-7">
+                        <label class="form-label small text-muted">Palabra o frase</label>
+                        <div class="input-group">
+                            <input type="text" wire:model="termino"
+                                class="form-control" placeholder="Ej: trigo, amor, esperanza...">
+                            <button type="submit" class="btn btn-success d-flex align-items-center justify-content-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small text-muted">Libros (opcional, vacío = toda la Biblia)</label>
+                        <div wire:ignore>
+                            <select x-ref="libroSelect" multiple placeholder="Todos los libros..." class="form-select">
+                                @foreach ($this->testamentos as $testamento)
+                                    <optgroup label="{{ $testamento->nombre }}">
+                                        @foreach ($testamento->libros as $libro)
+                                            <option value="{{ $libro->id }}" @selected(in_array($libro->id, $libroIds))>
+                                                {{ $libro->nombre }}
+                                            </option>
+                                        @endforeach
+                                    </optgroup>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-outline-secondary w-100"
+                                style="padding: 0.75rem 1.25rem; font-size: 15px;"
+                                wire:click="limpiar"
+                                @click="tomSelectInstance.clear()">
+                            Limpiar
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 
     @if (is_null($this->resultados))
         <p class="text-muted text-center py-5">Escribe una palabra arriba para empezar a buscar.</p>

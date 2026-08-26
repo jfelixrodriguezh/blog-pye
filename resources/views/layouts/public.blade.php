@@ -50,6 +50,17 @@
             width: 24px;
             height: 24px;
         }
+        .ts-wrapper.form-select,
+        .ts-wrapper.form-control {
+            font-size: 15px;
+            min-height: calc(1.5em + 1.5rem + calc(var(--bs-border-width) * 2));
+        }
+        .ts-wrapper.form-select .ts-control,
+        .ts-wrapper.form-control .ts-control {
+            padding: 0.75rem 1.25rem;
+            letter-spacing: 1px;
+        }
+
     </style>
 </head>
 <body class="bg-light">
