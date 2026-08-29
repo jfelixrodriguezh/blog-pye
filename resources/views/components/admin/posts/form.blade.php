@@ -153,8 +153,7 @@ new class extends Component {
 
                         <div class="mb-3">
                             <label class="form-label">Slug</label>
-                            <input type="text" class="form-control @error('slug') is-invalid @enderror"
-                                   wire:model="slug">
+                            <input type="text" class="form-control @error('slug') is-invalid @enderror" wire:model="slug" disabled>
                             @error('slug') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 

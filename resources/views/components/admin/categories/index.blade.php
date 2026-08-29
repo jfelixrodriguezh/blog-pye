@@ -20,6 +20,8 @@ new class extends Component {
     public string $name = '';
     public string $slug = '';
     public string $description = '';
+    public bool $aplicaPosts = true;
+    public bool $aplicaPodcasts = false;
 
     public function updatedSearch()
     {
@@ -38,7 +40,7 @@ new class extends Component {
 
     public function create()
     {
-        $this->reset(['editing', 'name', 'slug', 'description']);
+        $this->reset(['editing', 'name', 'slug', 'description', 'aplicaPosts', 'aplicaPodcasts']);
         $this->resetValidation();
         $this->showModal = true;
     }
@@ -49,6 +51,8 @@ new class extends Component {
         $this->name = $category->name;
         $this->slug = $category->slug;
         $this->description = $category->description ?? '';
+        $this->aplicaPosts = $category->aplica_posts;
+        $this->aplicaPodcasts = $category->aplica_podcasts;
         $this->resetValidation();
         $this->showModal = true;
     }
@@ -73,12 +77,16 @@ new class extends Component {
                 'name' => $this->name,
                 'slug' => $this->slug,
                 'description' => $this->description,
+                'aplica_posts' => $this->aplicaPosts,
+                'aplica_podcasts' => $this->aplicaPodcasts,
             ]);
         } else {
             Category::create([
                 'name' => $this->name,
                 'slug' => $this->slug,
                 'description' => $this->description,
+                'aplica_posts' => $this->aplicaPosts,
+                'aplica_podcasts' => $this->aplicaPodcasts,
             ]);
         }
 
@@ -118,6 +126,7 @@ new class extends Component {
                 <thead>
                     <tr class="text-uppercase text-muted small">
                         <th class="border-0 ps-4">Categoría</th>
+                        <th class="border-0 ps-4">Tipo</th>
                         <th class="border-0">Slug</th>
                         <th class="border-0">Posts</th>
                         <th class="border-0 text-end pe-4">Acciones</th>
@@ -130,6 +139,15 @@ new class extends Component {
                                 <div class="fw-semibold">{{ $category->name }}</div>
                                 <div class="text-muted small">{{ $category->description ?: 'Sin descripción' }}</div>
                             </td>
+                            <td class="ps-4">
+                                @if ($category->aplica_posts)
+                                    <span class="badge bg-info-subtle text-info-emphasis">Post</span>
+                                @endif
+                                @if ($category->aplica_podcasts)
+                                    <span class="badge bg-success-subtle text-success-emphasis">Podcast</span>
+                                @endif
+                            </td>
+
                             <td class="text-muted"><code>{{ $category->slug }}</code></td>
                             <td class="text-muted">{{ $category->posts_count }}</td>
                             <td class="text-end pe-4">
@@ -152,18 +170,12 @@ new class extends Component {
                                         class="btn btn-sm btn-light text-danger" title="Eliminar">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                                     </button>
-                                    {{-- <button
-                                        wire:click="delete({{ $category->id }})"
-                                        wire:confirm="¿Seguro que quieres eliminar '{{ $category->name }}'? Se quitará de los {{ $category->posts_count }} post(s) que la usan, pero esos posts no se eliminan."
-                                        class="btn btn-sm btn-light text-danger" title="Eliminar">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                    </button> --}}
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center text-muted py-5">No hay categorías todavía.</td>
+                            <td colspan="5" class="text-center text-muted py-5">No hay categorías todavía.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -192,7 +204,7 @@ new class extends Component {
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Slug</label>
-                        <input type="text" class="form-control @error('slug') is-invalid @enderror" wire:model="slug">
+                        <input type="text" class="form-control @error('slug') is-invalid @enderror" wire:model="slug" disabled>
                         @error('slug') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="mb-0">
@@ -200,6 +212,16 @@ new class extends Component {
                         <textarea class="form-control @error('description') is-invalid @enderror"
                                   rows="3" wire:model="description"></textarea>
                         @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center gap-4 mt-1">
+                    <div class="form-check form-check-info form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="aplicaPosts" wire:model="aplicaPosts">
+                        <label class="form-check-label" for="aplicaPosts">Post</label>
+                    </div>
+                    <div class="form-check form-check-success form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="aplicaPodcasts" wire:model="aplicaPodcasts">
+                        <label class="form-check-label" for="aplicaPodcasts">Podcast</label>
                     </div>
                 </div>
 

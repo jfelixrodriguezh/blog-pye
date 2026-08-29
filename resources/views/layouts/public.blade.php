@@ -60,7 +60,13 @@
             padding: 0.75rem 1.25rem;
             letter-spacing: 1px;
         }
-
+        .card.style-3 .card-img,
+        .card.style-3 .card-img-top {
+            border-radius: 10px;
+            box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
+            width: 40%;
+            margin-right: 12px;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -110,23 +116,23 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 py-3 px-3 disabled" href="#" tabindex="-1" aria-disabled="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                        Revistas
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 py-3 px-3 disabled" href="#" tabindex="-1" aria-disabled="true">
+                    <a class="nav-link d-flex align-items-center gap-2 py-3 px-3 {{ request()->routeIs('podcasts.*') ? 'active' : '' }}" href="{{ route('podcasts.index') }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
                         Podcasts
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 py-3 px-3 disabled" href="#" tabindex="-1" aria-disabled="true">
+                    <a class="nav-link d-flex align-items-center gap-2 py-3 px-3 {{ request()->routeIs('himnos.*') ? 'active' : '' }}" href="{{ route('himnos.index') }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
                         Himnos
                     </a>
                 </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2 py-3 px-3 disabled" href="#" tabindex="-1" aria-disabled="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                        Revistas
+                    </a>
+                </li> -->
             </ul>
         </div>
     </nav>

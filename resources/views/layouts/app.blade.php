@@ -56,10 +56,15 @@
             width: 24px;
             height: 24px;
         }
-        .ts-wrapper .ts-control {
-            min-height: calc(1.5em + 0.75rem + 2px);
-            padding: 0.375rem 0.75rem;
-            align-items: center;
+        .ts-wrapper.form-select,
+        .ts-wrapper.form-control {
+            font-size: 15px;
+            min-height: calc(1.5em + 1.5rem + calc(var(--bs-border-width) * 2));
+        }
+        .ts-wrapper.form-select .ts-control,
+        .ts-wrapper.form-control .ts-control {
+            padding: 0.75rem 1.25rem;
+            letter-spacing: 1px;
         }
     </style>
     @livewireStyles
@@ -70,7 +75,7 @@
         <div class="container-xxl d-flex align-items-center justify-content-between py-3 gap-3">
             <a href="{{ route('admin.posts.index') }}" class="d-flex align-items-center gap-2 text-decoration-none text-dark fw-bold fs-4 flex-shrink-0">
                 <span class="rounded-3 bg-primary text-white d-flex align-items-center justify-content-center" style="width:32px;height:32px;font-size:1rem;">C</span>
-                CORK
+                Peregrinos y Extranjeros
             </a>
 
             <div class="flex-grow-1" style="max-width: 480px;">
@@ -102,12 +107,10 @@
     <nav class="cork-nav">
         <div class="container-xxl">
             <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 py-3 px-3 disabled" href="#" tabindex="-1" aria-disabled="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-                        Dashboard
-                    </a>
-                </li>
+                <a class="nav-link d-flex align-items-center gap-2 py-3 px-3 {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                    Dashboard
+                </a>
                 <li class="nav-item dropdown" x-data="{ open: false }" @click.away="open = false" style="position: relative;">
                     <a href="#"
                        @click.prevent="open = !open"
@@ -124,12 +127,41 @@
                         <li><a href="{{ route('admin.tags.index') }}" class="{{ request()->routeIs('admin.tags.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Tags</a></li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 py-3 px-3 disabled" href="#" tabindex="-1" aria-disabled="true">
+                <li class="nav-item dropdown" x-data="{ open: false }" @click.away="open = false" style="position: relative;">
+                    <a href="#"
+                    @click.prevent="open = !open"
+                    class="nav-link active d-flex align-items-center gap-2 py-3 px-3"
+                    style="cursor:pointer;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
-                        Media
+                        Podcasts
                     </a>
+                    <ul x-show="open"
+                        style="display:none; position:absolute; top:100%; left:0; min-width:200px; margin:4px 0 0; padding:8px 0; list-style:none; background:#fff; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.15); z-index:1050;">
+                        <li><a href="{{ route('admin.podcasts.index') }}" class="{{ request()->routeIs('admin.podcasts.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Podcasts</a></li>
+                        <li><a href="{{ route('admin.episodes.index')}}" class="{{ request()->routeIs('admin.episodes.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Episodios</a></li>
+                        <li><a href="{{ route('admin.autors.index') }}" class="{{ request()->routeIs('admin.autors.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Autores</a></li>
+                        <li><a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Categorías</a></li>
+                        <li><a href="{{ route('admin.tags.index') }}" class="{{ request()->routeIs('admin.tags.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Tags</a></li>
+                    </ul>
                 </li>
+                <li class="nav-item dropdown" x-data="{ open: false }" @click.away="open = false" style="position: relative;">
+                    <a href="#"
+                    @click.prevent="open = !open"
+                    class="nav-link active d-flex align-items-center gap-2 py-3 px-3"
+                    style="cursor:pointer;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                        Himnos
+                    </a>
+                    <ul x-show="open"
+                        style="display:none; position:absolute; top:100%; left:0; min-width:200px; margin:4px 0 0; padding:8px 0; list-style:none; background:#fff; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.15); z-index:1050;">
+                        <li><a href="{{ route('admin.himnarios.index') }}" class="{{ request()->routeIs('admin.podcasts.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Himnarios</a></li>
+                        <li><a href="{{ route('admin.tonos.index')}}" class="{{ request()->routeIs('admin.episodes.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Tonos</a></li>
+                        <li><a href="{{ route('admin.autors.index') }}" class="{{ request()->routeIs('admin.autors.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Autores</a></li>
+                        <li><a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Categorías</a></li>
+                        <li><a href="{{ route('admin.himnos.index') }}" class="{{ request()->routeIs('admin.tags.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Himnos</a></li>
+                    </ul>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2 py-3 px-3 disabled" href="#" tabindex="-1" aria-disabled="true">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>

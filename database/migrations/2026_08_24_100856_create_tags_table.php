@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->boolean('aplica_posts')->default(true);
+            $table->boolean('aplica_podcasts')->default(false);
             $table->timestamps();
         });
     }

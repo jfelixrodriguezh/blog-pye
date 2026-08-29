@@ -19,6 +19,8 @@ new class extends Component {
 
     public string $name = '';
     public string $slug = '';
+    public bool $aplicaPosts = true;
+    public bool $aplicaPodcasts = false;
 
     public function updatedSearch()
     {
@@ -37,7 +39,7 @@ new class extends Component {
 
     public function create()
     {
-        $this->reset(['editing', 'name', 'slug']);
+        $this->reset(['editing', 'name', 'slug', 'aplicaPosts', 'aplicaPodcasts']);
         $this->resetValidation();
         $this->showModal = true;
     }
@@ -47,6 +49,8 @@ new class extends Component {
         $this->editing = $tag;
         $this->name = $tag->name;
         $this->slug = $tag->slug;
+        $this->aplicaPosts = $tag->aplica_posts;
+        $this->aplicaPodcasts = $tag->aplica_podcasts;
         $this->resetValidation();
         $this->showModal = true;
     }
@@ -69,11 +73,15 @@ new class extends Component {
             $this->editing->update([
                 'name' => $this->name,
                 'slug' => $this->slug,
+                'aplica_posts' => $this->aplicaPosts,
+                'aplica_podcasts' => $this->aplicaPodcasts,
             ]);
         } else {
             Tag::create([
                 'name' => $this->name,
                 'slug' => $this->slug,
+                'aplica_posts' => $this->aplicaPosts,
+                'aplica_podcasts' => $this->aplicaPodcasts,
             ]);
         }
 
@@ -112,7 +120,8 @@ new class extends Component {
             <table class="table table-hover align-middle mb-0">
                 <thead>
                     <tr class="text-uppercase text-muted small">
-                        <th class="border-0 ps-4">Tag</th>
+                        <th class="border-0">Tag</th>
+                        <th class="border-0 ps-4">Tipo</th>
                         <th class="border-0">Slug</th>
                         <th class="border-0">Posts</th>
                         <th class="border-0 text-end pe-4">Acciones</th>
@@ -122,6 +131,14 @@ new class extends Component {
                     @forelse ($this->tags as $tag)
                         <tr wire:key="tag-{{ $tag->id }}">
                             <td class="ps-4 fw-semibold">{{ $tag->name }}</td>
+                            <td class="ps-4">
+                                @if ($tag->aplica_posts)
+                                    <span class="badge bg-info-subtle text-info-emphasis">Post</span>
+                                @endif
+                                @if ($tag->aplica_podcasts)
+                                    <span class="badge bg-success-subtle text-success-emphasis">Podcast</span>
+                                @endif
+                            </td>
                             <td class="text-muted"><code>{{ $tag->slug }}</code></td>
                             <td class="text-muted">{{ $tag->posts_count }}</td>
                             <td class="text-end pe-4">
@@ -144,18 +161,13 @@ new class extends Component {
                                         class="btn btn-sm btn-light text-danger" title="Eliminar">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                                     </button>
-                                    {{-- <button
-                                        wire:click="delete({{ $tag->id }})"
-                                        wire:confirm="¿Seguro que quieres eliminar '{{ $tag->name }}'?"
-                                        class="btn btn-sm btn-light text-danger" title="Eliminar">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                    </button> --}}
+
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center text-muted py-5">No hay tags todavía.</td>
+                            <td colspan="5" class="text-center text-muted py-5">No hay tags todavía.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -182,10 +194,22 @@ new class extends Component {
                         <input type="text" class="form-control @error('name') is-invalid @enderror" wire:model.live="name">
                         @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
-                    <div class="mb-0">
+
+                    <div class="mb-3">
                         <label class="form-label">Slug</label>
-                        <input type="text" class="form-control @error('slug') is-invalid @enderror" wire:model="slug">
+                        <input type="text" class="form-control @error('slug') is-invalid @enderror" wire:model="slug" disabled>
                         @error('slug') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-4 mt-3">
+                        <div class="form-check form-check-info form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="tagAplicaPosts" wire:model="aplicaPosts">
+                            <label class="form-check-label" for="tagAplicaPosts">Post</label>
+                        </div>
+                        <div class="form-check form-check-success form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="tagAplicaPodcasts" wire:model="aplicaPodcasts">
+                            <label class="form-check-label" for="tagAplicaPodcasts">Podcast</label>
+                        </div>
                     </div>
                 </div>
 
