@@ -140,16 +140,25 @@ Route::get('/himnos/{himnario}/{numero}', function (Himnario $himnario, int $num
     return view('himnos.show', ['himno' => $himno]);
 })->name('himnos.show');
 
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::post('/logout', function () {
+    \Illuminate\Support\Facades\Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect()->route('login');
+})->name('logout');
 
 
 
 
 
 
-
-
+/*
 Route::prefix('admin')->name('admin.')->group(function () {
-    /* DASHBOARD */
+    // DASHBOARD
     Route::get('/dashboard', function () {
         return view('admin.dashboard', [
             'stats' => [
@@ -173,27 +182,27 @@ Route::prefix('admin')->name('admin.')->group(function () {
             'recentEpisodes' => Episode::with(['podcast', 'autor'])->latest()->take(5)->get(),
         ]);
     })->name('dashboard');
-    /* POST */
+    // POST
     Route::view('/posts', 'admin.posts.index')->name('posts.index');
     Route::view('/posts/crear', 'admin.posts.create')->name('posts.create');
     Route::get('/posts/{post}/editar', function (Post $post) {
         return view('admin.posts.edit', ['post' => $post]);
     })->name('posts.edit');
-    /* AUTOR */
+    // AUTOR
     Route::view('/autors', 'admin.autors.index')->name('autors.index');
-    /* CATEGORIES */
+    // CATEGORIES
     Route::view('/categories', 'admin.categories.index')->name('categories.index');
-    /* TAGS */
+    // TAGS
     Route::view('/tags', 'admin.tags.index')->name('tags.index');
-    /* PODCAST */
+    // PODCAST
     Route::view('/podcasts', 'admin.podcasts.index')->name('podcasts.index');
-    /* EPISODES */
+    // EPISODES
     Route::view('/episodes', 'admin.episodes.index')->name('episodes.index');
     Route::view('/episodes/crear', 'admin.episodes.create')->name('episodes.create');
     Route::get('/episodes/{episode}/editar', function (Episode $episode) {
         return view('admin.episodes.edit', ['episode' => $episode]);
     })->name('episodes.edit');
-    /* HIMNOS */
+    // HIMNOS
     Route::view('/himnarios', 'admin.himnarios.index')->name('himnarios.index');
     Route::view('/tonos', 'admin.tonos.index')->name('tonos.index');
     Route::view('/himnos', 'admin.himnos.index')->name('himnos.index');
@@ -202,7 +211,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         return view('admin.himnos.edit', ['himno' => $himno]);
     })->name('himnos.edit');
 });
-
+*/
 
 Route::get('/audio/episodio/{episode}', function (Episode $episode) {
     abort_unless($episode->es_local, 404);
@@ -213,3 +222,63 @@ Route::get('/audio/episodio/{episode}', function (Episode $episode) {
 
     return response()->file($path);
 })->name('audio.episode');
+
+
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard', [
+            'stats' => [
+                'posts' => [
+                    'total' => Post::count(),
+                    'published' => Post::where('status', 'published')->count(),
+                ],
+                'podcasts' => Podcast::count(),
+                'episodes' => [
+                    'total' => Episode::count(),
+                    'published' => Episode::where('status', 'published')->count(),
+                ],
+                'himnos' => [
+                    'total' => Himno::count(),
+                    'published' => Himno::where('status', 'published')->count(),
+                ],
+                'autores' => Autor::count(),
+                'categorias' => Category::count(),
+            ],
+            'recentPosts' => Post::with('autor')->latest()->take(5)->get(),
+            'recentEpisodes' => Episode::with(['podcast', 'autor'])->latest()->take(5)->get(),
+        ]);
+    })->name('dashboard');
+
+    Route::middleware('permission:manage posts')->group(function () {
+        Route::view('/posts', 'admin.posts.index')->name('posts.index');
+        Route::view('/posts/crear', 'admin.posts.create')->name('posts.create');
+        Route::get('/posts/{post}/editar', function (Post $post) {
+            return view('admin.posts.edit', ['post' => $post]);
+        })->name('posts.edit');
+    });
+
+    Route::middleware('permission:manage podcasts')->group(function () {
+        Route::view('/podcasts', 'admin.podcasts.index')->name('podcasts.index');
+        Route::view('/episodes', 'admin.episodes.index')->name('episodes.index');
+        Route::view('/episodes/crear', 'admin.episodes.create')->name('episodes.create');
+        Route::get('/episodes/{episode}/editar', function (Episode $episode) {
+            return view('admin.episodes.edit', ['episode' => $episode]);
+        })->name('episodes.edit');
+    });
+
+    Route::middleware('permission:manage himnos')->group(function () {
+        Route::view('/himnarios', 'admin.himnarios.index')->name('himnarios.index');
+        Route::view('/tonos', 'admin.tonos.index')->name('tonos.index');
+        Route::view('/himnos', 'admin.himnos.index')->name('himnos.index');
+        Route::view('/himnos/crear', 'admin.himnos.create')->name('himnos.create');
+        Route::get('/himnos/{himno}/editar', function (Himno $himno) {
+            return view('admin.himnos.edit', ['himno' => $himno]);
+        })->name('himnos.edit');
+    });
+
+    Route::middleware('permission:manage taxonomies')->group(function () {
+        Route::view('/autors', 'admin.autors.index')->name('autors.index');
+        Route::view('/categories', 'admin.categories.index')->name('categories.index');
+        Route::view('/tags', 'admin.tags.index')->name('tags.index');
+    });
+});
