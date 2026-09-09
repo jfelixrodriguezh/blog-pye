@@ -10,30 +10,56 @@ class RolePermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        $permisos = [
-            'manage posts',
-            'manage podcasts',
-            'manage himnos',
-            'manage taxonomies',
-            'manage users',
-        ];
+        $modulos = ['posts', 'autores', 'categorias', 'tags', 'podcasts', 'episodios', 'himnarios', 'tonos', 'himnos'];
+        $acciones = ['ver', 'crear', 'editar', 'eliminar'];
 
-        foreach ($permisos as $permiso) {
-            Permission::firstOrCreate(['name' => $permiso]);
+        foreach ($modulos as $modulo) {
+            foreach ($acciones as $accion) {
+                Permission::firstOrCreate(['name' => "{$accion} {$modulo}"]);
+            }
         }
+
+        Permission::firstOrCreate(['name' => 'manage users']);
 
         $admin = Role::firstOrCreate(['name' => 'Admin']);
         $admin->syncPermissions(Permission::all());
 
-        Role::firstOrCreate(['name' => 'Editor de Blog'])
-            ->syncPermissions(['manage posts', 'manage taxonomies']);
+        Role::firstOrCreate(['name' => 'Post'])->syncPermissions([
+            'ver posts', 'crear posts', 'editar posts', 'eliminar posts',
+        ]);
 
-        Role::firstOrCreate(['name' => 'Editor de Podcasts'])
-            ->syncPermissions(['manage podcasts', 'manage taxonomies']);
+        Role::firstOrCreate(['name' => 'Autor'])->syncPermissions([
+            'ver autores', 'crear autores', 'editar autores', 'eliminar autores',
+        ]);
 
-        Role::firstOrCreate(['name' => 'Editor de Himnos'])
-            ->syncPermissions(['manage himnos', 'manage taxonomies']);
+        Role::firstOrCreate(['name' => 'Categoria'])->syncPermissions([
+            'ver categorias', 'crear categorias', 'editar categorias', 'eliminar categorias',
+        ]);
 
-        $this->command->info('Roles y permisos creados.');
+        Role::firstOrCreate(['name' => 'Tag'])->syncPermissions([
+            'ver tags', 'crear tags', 'editar tags', 'eliminar tags',
+        ]);
+
+        Role::firstOrCreate(['name' => 'Podcasts'])->syncPermissions([
+            'ver podcasts', 'crear podcasts', 'editar podcasts', 'eliminar podcasts',
+        ]);
+
+        Role::firstOrCreate(['name' => 'Episodios'])->syncPermissions([
+            'ver episodios', 'crear episodios', 'editar episodios', 'eliminar episodios',
+        ]);
+
+        Role::firstOrCreate(['name' => 'Himnos'])->syncPermissions([
+            'ver himnos', 'crear himnos', 'editar himnos', 'eliminar himnos',
+        ]);
+
+        Role::firstOrCreate(['name' => 'Himnarios'])->syncPermissions([
+            'ver himnarios', 'crear himnarios', 'editar himnarios', 'eliminar himnarios',
+        ]);
+
+        Role::firstOrCreate(['name' => 'Tonos'])->syncPermissions([
+            'ver tonos', 'crear tonos', 'editar tonos', 'eliminar tonos',
+        ]);
+
+        $this->command->info('Permisos granulares y roles actualizados.');
     }
 }

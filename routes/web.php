@@ -187,6 +187,16 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         ]);
     })->name('dashboard');
 
+    Route::middleware('permission:manage users')->group(function () {
+        Route::view('/usuarios', 'admin.users.index')->name('users.index');
+    });
+
+    Route::view('/roles', 'admin.roles.index')->name('roles.index');
+    Route::view('/roles/crear', 'admin.roles.create')->name('roles.create');
+    Route::get('/roles/{role}/editar', function (\Spatie\Permission\Models\Role $role) {
+        return view('admin.roles.edit', ['role' => $role]);
+    })->name('roles.edit');
+
     Route::middleware('permission:manage posts')->group(function () {
         Route::view('/posts', 'admin.posts.index')->name('posts.index');
         Route::view('/posts/crear', 'admin.posts.create')->name('posts.create');
