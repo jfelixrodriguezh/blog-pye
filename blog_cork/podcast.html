@@ -1,0 +1,532 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <title>Blog</title>
+    <link rel="icon" type="image/x-icon" href="src/assets/img/favicon.ico"/>
+    <link href="layouts/horizontal-light-menu/css/light/loader.css" rel="stylesheet" type="text/css" />
+    <link href="layouts/horizontal-light-menu/css/dark/loader.css" rel="stylesheet" type="text/css" />
+    <script src="layouts/horizontal-light-menu/loader.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="src/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="src/plugins/src/waves/waves.min.css">
+    <link rel="stylesheet" type="text/css" href="src/plugins/src/prism/prism.css">
+    
+    <link href="src/assets/css/utilities/utilities.css" rel="stylesheet" type="text/css" />
+    <link href="layouts/horizontal-light-menu/css/light/plugins.css" rel="stylesheet" type="text/css" />
+    <link href="layouts/horizontal-light-menu/css/dark/plugins.css" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    
+    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    <link rel="stylesheet" type="text/css" href="src/assets/css/light/elements/alert.css">
+    <link rel="stylesheet" type="text/css" href="src/assets/css/dark/elements/alert.css">
+    <link href="src/assets/css/light/elements/custom-pagination.css" rel="stylesheet" type="text/css" />
+    <link href="src/assets/css/dark/elements/custom-pagination.css" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+
+    <style>
+        body.dark .layout-px-spacing, .layout-px-spacing {
+            min-height: calc(100vh - 155px) !important;
+        }
+
+        .podcast-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .podcast-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 18px 20px;
+            border: 1px solid var(--x_4);
+            border-radius: 12px;
+            background: transparent;
+            transition: box-shadow .2s ease, border-color .2s ease;
+        }
+
+        @media (max-width: 991.98px) {
+            .podcast-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .podcast-item:hover {
+            border-color: var(--primary_500);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        .podcast-thumb {
+            width: 72px;
+            height: 72px;
+            border-radius: 10px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .podcast-body {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .podcast-meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 12.5px;
+            color: var(--x_7);
+            margin-bottom: 6px;
+        }
+
+        .podcast-meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .podcast-meta-sep {
+            color: var(--x_4);
+        }
+
+        .podcast-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .podcast-desc {
+            font-size: 13.5px;
+            color: var(--x_7);
+            margin-bottom: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .podcast-play {
+            flex-shrink: 0;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid var(--x_4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary_500);
+            transition: background .2s ease, color .2s ease, border-color .2s ease;
+        }
+
+        .podcast-play:hover {
+            background: var(--primary_500);
+            border-color: var(--primary_500);
+            color: #fff;
+        }
+
+        @media (max-width: 575.98px) {
+            .podcast-item {
+                padding: 14px;
+                gap: 14px;
+            }
+            .podcast-thumb {
+                width: 56px;
+                height: 56px;
+            }
+            .podcast-title {
+                font-size: 14.5px;
+            }
+        }
+    </style>
+</head>
+<body class="layout-boxed">
+
+    <!-- BEGIN LOADER -->
+    <div id="load_screen">
+        <div class="loader"></div>
+    </div>
+    <!-- END LOADER -->
+
+    <!-- BEGIN NAVBAR -->
+    <div class="header-container">
+        <header class="header navbar container-xxl">
+
+            <ul class="header-item theme-brand text-center">
+                <li class="theme-text">
+                    <a href="#" class="d-flex align-items-center gap-2 text-decoration-none text-dark fw-bold fs-4 flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4361ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V10l7-6 7 6v11"/><path d="M12 21v-6"/></svg>
+                        Peregrinos y Extranjeros
+                    </a>
+                </li>
+                <li class="align-self-center ms-md-0 ms-2 me-md-3 me-2 d-xl-none d-block">
+                    <a href="javascript:void(0);" class="btn-toggle sidebarCollapse" data-placement="bottom">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-menu-2"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 6l16 0" /><path d="M4 12l16 0" /><path d="M4 18l16 0" /></svg>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="header-item ms-md-0 ms-auto search-area">
+                <li class="nav-item align-self-center search-content search-animated">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search toggle-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <circle cx="10" cy="10" r="7"></circle>
+                        <line x1="21" y1="21" x2="15" y2="15"></line>
+                    </svg>
+                    <form class="search-full search-inline-form" role="search">
+                        <div class="search-bar">
+                            <input type="text" class="form-control search-form-control ms-lg-auto" placeholder="Busqueda...">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x search-close"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+
+            <ul class="header-item ms-md-auto action-area">
+
+                <li class="h-item theme-toggle-item">
+                    <a href="javascript:void(0);" class="h-link theme-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon dark-mode" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sun-high light-mode" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z"></path>
+                            <path d="M6.343 17.657l-1.414 1.414"></path>
+                            <path d="M6.343 6.343l-1.414 -1.414"></path>
+                            <path d="M17.657 6.343l1.414 -1.414"></path>
+                            <path d="M17.657 17.657l1.414 1.414"></path>
+                            <path d="M4 12h-2"></path>
+                            <path d="M12 4v-2"></path>
+                            <path d="M20 12h2"></path>
+                            <path d="M12 20v2"></path>
+                        </svg>
+                    </a>
+                </li>
+
+            </ul>
+
+        </header>
+    </div>
+    <!-- END NAVBAR -->
+
+    <!-- BEGIN MAIN CONTAINER -->
+    <div class="main-container" id="container">
+
+        <div class="overlay"></div>
+        <div class="search-overlay"></div>
+        <div class="tc-overlay"></div>
+        <div class="psidebar-overlay"></div>
+
+        <!-- BEGIN TOPBAR -->
+        <div class="topbar-wrapper topbar-theme">
+            <nav id="topbar">
+                <ul class="list-unstyled menu-categories mb-0 container-xxl p-0" id="accordionExample">
+                    <li class="admin-menu-dropdown ">
+                        <a class="admin-menu-toggle" aria-expanded="false" href="home.html">
+                            <div class="menu-name">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <polyline points="5 12 3 12 12 3 21 12 19 12"></polyline>
+                                    <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
+                                    <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path>
+                                </svg>
+                                <span>Home</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="admin-menu-dropdown">
+                        <a class="admin-menu-toggle" aria-expanded="false" href="biblia.html">
+                            <div class="menu-name">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-book-2">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12" />
+                                    <path d="M19 16h-12a2 2 0 0 0 -2 2" />
+                                    <path d="M9 8h6" />
+                                </svg>
+                                <span>Biblia Online</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="admin-menu-dropdown active">
+                        <a class="admin-menu-toggle" aria-expanded="false">
+                            <div class="menu-name">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-microphone">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M9 5a3 3 0 0 1 3 -3a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3a3 3 0 0 1 -3 -3l0 -5" />
+                                    <path d="M5 10a7 7 0 0 0 14 0" />
+                                    <path d="M8 21l8 0" />
+                                    <path d="M12 17l0 4" />
+                                </svg>
+                                <span>Podcast</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="admin-menu-dropdown">
+                        <a class="admin-menu-toggle" aria-expanded="false">
+                            <div class="menu-name">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-clef-staff">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M15 15h6" />
+                                    <path d="M15 11h6" />
+                                    <path d="M11 19h10" />
+                                    <path d="M11 12a4.16 4.16 0 0 1 -5.62 3.89a3.78 3.78 0 0 1 -2.38 -3.39a3.42 3.42 0 0 1 2.34 -3.38l3.79 -1.42a2.89 2.89 0 0 0 1.87 -2.7a2 2 0 0 0 -2 -2a2 2 0 0 0 -2 2v14a2 2 0 0 1 -2 2a2 2 0 0 1 -2 -2" />
+                                </svg>
+                                <span>Himnos</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!-- END TOPBAR -->
+
+        <!-- BEGIN CONTENT AREA -->
+        <div id="content" class="main-content">
+            <div class="layout-px-spacing">
+                <div class="middle-content container-xxl p-0">
+
+                    <!-- BEGIN BREADCRUMBS -->
+                    <div class="secondary-nav">
+                        <div class="breadcrumbs-container">
+                            <header class="header navbar navbar-expand-sm">
+                                <div class="d-flex breadcrumb-content">
+                                    <div class="page-header">
+                                        <nav class="breadcrumb-style-one" aria-label="breadcrumb">
+                                            <ol class="breadcrumb">
+                                                <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                                                <li class="breadcrumb-item active" aria-current="page">Mi Prototipo</li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </header>
+                        </div>
+                    </div>
+                    <!-- END BREADCRUMBS -->
+                    <h1 class="fw-bold mb-4">Podcasts</h1>
+                    <!-- CONTENT AREA -->
+                    <div class="row">   
+                        <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 layout-spacing">
+                            <div class="statbox widget box box-shadow">
+                                <div class="widget-header">
+                                    <div class="row mb-4 g-2 mt-2">
+                                        <div class="col-lg-4">
+                                            <form wire:submit="buscar" class="input-group">
+                                                <input type="text" wire:model="search"
+                                                    class="form-control" placeholder="Buscar por episodios">
+                                                <button type="submit" class="btn btn-success d-flex align-items-center justify-content-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <div class="col-lg-3 col-6">
+                                            <select class="form-select" wire:model.live="podcastFilter">
+                                                <option value="">Todos los Podcast</option>
+                                                    <option value="1">Conferencias</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3 col-6">
+                                            <select class="form-select" wire:model.live="categoryFilter">
+                                                <option value="">Todas las categorías</option>
+                                                    <option value="1">Estudios</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <select class="form-select" wire:model.live="sort">
+                                                <option value="recent">Más recientes</option>
+                                                <option value="oldest">Más antiguos</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="widget-content widget-content-area">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="podcast-list">
+                                                <div class="podcast-item">
+                                                    <img src="src\assets\img\regular\c-1.jpg" class="podcast-thumb" alt="Las Siete Columnas de la Iglesia">
+                                                    <div class="podcast-body">
+                                                        <div class="podcast-meta">
+                                                            <span class="podcast-meta-item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                                                14 Mar, 20267
+                                                            </span>
+                                                            <span class="podcast-meta-sep">&bull;</span>
+                                                            <span class="podcast-meta-item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                                                45 mins
+                                                            </span>
+                                                        </div>
+                                                        <h5 class="podcast-title">Ep 42: Las Siete Columnas de la Iglesia</h5>
+                                                        <p class="podcast-desc">Explorando como las columnas de la fe cristiana sostienen la vida de la iglesia, ofreciendo un marco practico para el discipulado y la ensenanza biblica.</p>
+                                                    </div>
+                                                    <a href="#" class="podcast-play" aria-label="Reproducir episodio">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                                    </a>
+                                                </div>
+                                                <div class="podcast-item">
+                                                    <img src="../src/assets/img/regular/c-3.jpg" class="podcast-thumb" alt="Justificacion por la Fe">
+                                                    <div class="podcast-body">
+                                                        <div class="podcast-meta">
+                                                            <span class="podcast-meta-item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                                                07 Mar, 2026
+                                                            </span>
+                                                            <span class="podcast-meta-sep">&bull;</span>
+                                                            <span class="podcast-meta-item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                                                52 mins
+                                                            </span>
+                                                        </div>
+                                                        <h5 class="podcast-title">Ep 41: Justificacion por la Fe</h5>
+                                                        <p class="podcast-desc">Un recorrido historico y teologico por la doctrina central de la Reforma, con su relevancia y aplicacion practica en la vida cristiana de hoy.</p>
+                                                    </div>
+                                                    <a href="#" class="podcast-play" aria-label="Reproducir episodio">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                                    </a>
+                                                </div>
+                                                <div class="podcast-item">
+                                                    <img src="../src/assets/img/regular/c-3.jpg" class="podcast-thumb" alt="El Rol del Espiritu">
+                                                    <div class="podcast-body">
+                                                        <div class="podcast-meta">
+                                                            <span class="podcast-meta-item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                                                28 Feb, 2026
+                                                            </span>
+                                                            <span class="podcast-meta-sep">&bull;</span>
+                                                            <span class="podcast-meta-item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                                                38 mins
+                                                            </span>
+                                                        </div>
+                                                        <h5 class="podcast-title">Ep 40: El Rol del Espiritu</h5>
+                                                        <p class="podcast-desc">Discutiendo la obra iluminadora del Espiritu Santo en la comprension de las Escrituras y la presencia activa de la gracia en la vida diaria del creyente.</p>
+                                                    </div>
+                                                    <a href="#" class="podcast-play" aria-label="Reproducir episodio">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                                    </a>
+                                                </div>
+                                                <div class="podcast-item">
+                                                    <img src="../src/assets/img/regular/c-3.jpg" class="podcast-thumb" alt="Las Siete Columnas de la Iglesia">
+                                                    <div class="podcast-body">
+                                                        <div class="podcast-meta">
+                                                            <span class="podcast-meta-item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                                                21 Feb, 2026
+                                                            </span>
+                                                            <span class="podcast-meta-sep">&bull;</span>
+                                                            <span class="podcast-meta-item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                                                41 mins
+                                                            </span>
+                                                        </div>
+                                                        <h5 class="podcast-title">Ep 39: Las Siete Columnas de la Iglesia</h5>
+                                                        <p class="podcast-desc">Exploramos como los pactos del Antiguo Testamento encuentran su cumplimiento en el Nuevo Pacto, dando un marco para entender la teologia biblica.</p>
+                                                    </div>
+                                                    <a href="#" class="podcast-play" aria-label="Reproducir episodio">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                                    </a>
+                                                </div>
+                                                <div class="podcast-item">
+                                                    <img src="../src/assets/img/regular/c-3.jpg" class="podcast-thumb" alt="Justificacion por la Fe">
+                                                    <div class="podcast-body">
+                                                        <div class="podcast-meta">
+                                                            <span class="podcast-meta-item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                                                14 Feb, 2026
+                                                            </span>
+                                                            <span class="podcast-meta-sep">&bull;</span>
+                                                            <span class="podcast-meta-item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                                                49 mins
+                                                            </span>
+                                                        </div>
+                                                        <h5 class="podcast-title">Ep 38: Justificacion por la Fe</h5>
+                                                        <p class="podcast-desc">Una mirada historica y teologica a la doctrina central de la Reforma, discutiendo su relevancia y aplicacion practica en la vida cristiana moderna.</p>
+                                                    </div>
+                                                    <a href="#" class="podcast-play" aria-label="Reproducir episodio">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                                    </a>
+                                                </div>
+                                                <div class="podcast-item">
+                                                    <img src="../src/assets/img/regular/c-3.jpg" class="podcast-thumb" alt="El Rol del Espiritu">
+                                                    <div class="podcast-body">
+                                                        <div class="podcast-meta">
+                                                            <span class="podcast-meta-item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                                                07 Feb, 2026
+                                                            </span>
+                                                            <span class="podcast-meta-sep">&bull;</span>
+                                                            <span class="podcast-meta-item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                                                38 mins
+                                                            </span>
+                                                        </div>
+                                                        <h5 class="podcast-title">Ep 37: El Rol del Espiritu</h5>
+                                                        <p class="podcast-desc">Discutiendo la obra iluminadora del Espiritu Santo en la comprension de las Escrituras y la presencia activa de la gracia en la vida diaria del creyente.</p>
+                                                    </div>
+                                                    <a href="#" class="podcast-play" aria-label="Reproducir episodio">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="pagination-custom_outline mt-4">
+                                                    <a href="#" class="prev"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></a>
+                                                    <ul class="pagination">
+                                                        <li><a href="#">1</a></li>
+                                                        <li><a href="#">2</a></li>
+                                                        <li><a href="#">3</a></li>
+                                                    </ul>
+                                                    <a href="#" class="next"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- END CONTENT AREA -->
+
+                </div>
+            </div>
+
+            <div class="footer-wrapper">
+                <div class="footer-section f-section-1">
+                    <p class="">Copyright © 2026 Peregrinos y Extrajeros, All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+        <!-- END CONTENT AREA -->
+    </div>
+    <!-- END MAIN CONTAINER -->
+
+    
+
+    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
+    <script src="src/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="src/plugins/src/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="src/plugins/src/mousetrap/mousetrap.min.js"></script>
+    <script src="src/plugins/src/waves/waves.min.js"></script>
+    <script src="src/plugins/src/floating-ui/core.js"></script>
+    <script src="src/plugins/src/floating-ui/dom.js"></script>
+    <script src="layouts/horizontal-light-menu/app.js"></script>
+    <!-- <script src="src/assets/js/theme-customizer.js"></script> -->
+    <!-- END GLOBAL MANDATORY SCRIPTS -->
+</body>
+</html>
