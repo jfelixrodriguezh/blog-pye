@@ -23,39 +23,160 @@
             align-items: center;
             justify-content: center;
         }
-        .cork-nav {
-            background-color: #191e3a;
-        }
-        .cork-nav .nav-item {
+        .site-header {
+            background: #fff;
+            border-bottom: 1px solid #e0e6ed;
             position: relative;
+            z-index: 1045;
         }
-        .cork-nav .nav-item:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            top: 14px;
-            bottom: 14px;
-            right: 0;
-            width: 1px;
-            background: #515365;
+        .site-nav {
+            background: #fff;
+            border-bottom: 1px solid #e0e6ed;
+            position: relative;
+            z-index: 1040;
         }
-        .cork-nav .nav-link {
-            color: #e0e6ed;
+        .dropdown-menu {
+            z-index: 1060 !important;
         }
-        .cork-nav .nav-link.active {
-            color: #ffffff;
+        .site-nav .nav-link {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .55rem 1rem;
+            border-radius: .5rem;
+            color: #3b3f5c;
             font-weight: 600;
+            font-size: .9rem;
+            white-space: nowrap;
+            text-decoration: none;
+            transition: background-color .15s ease, color .15s ease;
         }
-        .cork-nav .nav-link:hover:not(.disabled) {
-            color: #ffffff;
+        .site-nav .nav-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+        .site-nav .nav-link:hover:not(.active) { background-color: #f1f2f3; }
+        .site-nav .nav-link.active { background-color: var(--bs-primary); color: #fff; }
+        .site-nav .dropdown-menu {
+            font-size: .9rem;
         }
-        .cork-nav .nav-link.disabled {
-            color: #6b7086;
-            pointer-events: none;
+        .site-nav .dropdown-item.fw-bold {
+            color: var(--bs-primary);
         }
-        .cork-nav svg {
-            width: 24px;
-            height: 24px;
+
+        .site-nav .container-xxl { position: relative; }
+        .nav-toolbar { padding: .5rem 0; }
+        .nav-toggle-btn {
+            align-items: center;
+            gap: .5rem;
+            background: none;
+            border: 1px solid #e0e6ed;
+            border-radius: .5rem;
+            padding: .5rem .9rem;
+            color: #3b3f5c;
+            font-weight: 600;
+            font-size: .9rem;
         }
+        .nav-toggle-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+        body.dark .nav-toggle-btn { color: #bfc9d4; border-color: #191e3a; }
+
+        .nav-toolbar .input-group {
+            border: 1px solid #e0e6ed;
+            border-radius: .5rem;
+            overflow: hidden;
+        }
+        .nav-toolbar .input-group-text,
+        .nav-toolbar .form-control {
+            background: #fff;
+            border: 0;
+        }
+        .nav-toolbar .form-control:focus { box-shadow: none; }
+        body.dark .nav-toolbar .input-group { border-color: #191e3a; }
+        body.dark .nav-toolbar .input-group-text,
+        body.dark .nav-toolbar .form-control { background: #0e1726; color: #bfc9d4; }
+
+        @media (max-width: 767.98px) {
+            .site-nav .nav-list {
+                display: none !important;
+                flex-direction: column;
+                flex-wrap: nowrap !important;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #fff;
+                box-shadow: 0 12px 30px rgba(0, 0, 0, .15);
+                border-radius: 0 0 14px 14px;
+                padding: .5rem;
+                margin: 0;
+                z-index: 1045;
+            }
+            .site-nav .nav-list.show { display: flex !important; }
+            .site-nav .nav-link { width: 100%; }
+            .site-nav .dropdown { width: 100%; }
+            .site-nav .dropdown-menu { width: 100%; }
+            body.dark .site-nav .nav-list { background: #1b2e4b; }
+        }
+
+        body.dark { background-color: #0e1726 !important; color: #bfc9d4; }
+        body.dark .site-header,
+        body.dark .site-nav { background-color: #1b2e4b; border-color: #191e3a; }
+        body.dark .site-header a { color: #e0e6ed; }
+        body.dark .site-nav .nav-link { color: #bfc9d4; }
+        body.dark .site-nav .nav-link:hover:not(.active) { background-color: #191e3a; }
+        body.dark .card,
+        body.dark .statbox { background-color: #0e1726; color: #bfc9d4; }
+        body.dark a.card.text-reset { color: #bfc9d4 !important; }
+        body.dark .card-title { color: #e0e6ed; }
+        body.dark .border-top,
+        body.dark .border-bottom { border-color: #191e3a !important; }
+
+        body.dark .form-select,
+        body.dark .form-control {
+            background-color: #0e1726;
+            border-color: #191e3a;
+            color: #bfc9d4;
+        }
+        body.dark .form-select:focus,
+        body.dark .form-control:focus {
+            background-color: #0e1726;
+            border-color: var(--bs-primary);
+            color: #bfc9d4;
+            box-shadow: none;
+        }
+        body.dark .form-select option { background-color: #0e1726; color: #bfc9d4; }
+        body.dark .table { color: #bfc9d4; }
+        body.dark .table > :not(caption) > * > * { background-color: #0e1726; color: #bfc9d4; }
+
+        body.dark .page-link {
+            background-color: #0e1726;
+            border-color: #191e3a;
+            color: #bfc9d4;
+        }
+        body.dark .page-link:hover { background-color: #191e3a; color: #e0e6ed; }
+        body.dark .page-item.active .page-link {
+            background-color: var(--bs-primary);
+            border-color: var(--bs-primary);
+            color: #fff;
+        }
+        body.dark .page-item.disabled .page-link {
+            background-color: #0e1726;
+            border-color: #191e3a;
+            color: #566078;
+        }
+
+        body.dark .site-header .input-group .form-control,
+        body.dark .site-header .input-group-text {
+            background-color: #1b2e4b !important;
+            color: #bfc9d4;
+        }
+        body.dark .badge.bg-light { background-color: #191e3a !important; color: #bfc9d4 !important; }
+        body.dark .dropdown-menu {
+            background-color: #1b2e4b;
+            border-color: #191e3a;
+        }
+        body.dark .dropdown-item { color: #bfc9d4; }
+        body.dark .dropdown-item:hover,
+        body.dark .dropdown-item:focus { background-color: #191e3a; color: #e0e6ed; }
+        body.dark .dropdown-divider { border-color: #191e3a; }
+
         .ts-wrapper.form-select,
         .ts-wrapper.form-control {
             font-size: 15px;
@@ -71,14 +192,14 @@
 </head>
 <body class="bg-light">
 
-    <header class="bg-white border-bottom">
+    <header class="site-header">
         <div class="container-xxl d-flex align-items-center justify-content-between py-3 gap-3">
             <a href="{{ route('admin.posts.index') }}" class="d-flex align-items-center gap-2 text-decoration-none text-dark fw-bold fs-4 flex-shrink-0">
                 <span class="rounded-3 bg-primary text-white d-flex align-items-center justify-content-center" style="width:32px;height:32px;font-size:1rem;">C</span>
                 Peregrinos y Extranjeros
             </a>
 
-            <div class="flex-grow-1" style="max-width: 480px;">
+            <div class="d-none d-md-block flex-grow-1" style="max-width: 480px;">
                 <div class="input-group">
                     <span class="input-group-text bg-light border-0">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -89,22 +210,19 @@
             </div>
 
             <div class="d-flex align-items-center gap-3 flex-shrink-0">
-                <a href="#" class="text-muted">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                </a>
-                <a href="#" class="text-muted">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
-                </a>
-                <a href="#" class="text-muted position-relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-primary border border-light rounded-circle"></span>
-                </a>
-                <!-- <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width:36px;height:36px;font-size:.8rem;">GT</div> -->
-                 <div class="dropdown">
+                <button type="button" class="btn btn-link p-0 text-muted theme-toggle-btn" id="themeToggleBtn" title="Cambiar tema">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-icon="moon"><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-icon="sun" class="d-none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+                </button>
+                <div class="dropdown">
                     <a href="#" class="d-flex align-items-center text-decoration-none" data-bs-toggle="dropdown">
-                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width:36px;height:36px;">
-                            {{ collect(explode(' ', auth()->user()->name))->map(fn($p) => mb_substr($p,0,1))->join('') }}
-                        </div>
+                        @if (auth()->user()->photo)
+                            <img src="{{ asset('storage/'.auth()->user()->photo) }}" class="rounded-circle" style="width:36px;height:36px;object-fit:cover;" alt="{{ auth()->user()->name }}">
+                        @else
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width:36px;height:36px;">
+                                {{ collect(explode(' ', auth()->user()->name))->map(fn($p) => mb_substr($p,0,1))->join('') }}
+                            </div>
+                        @endif
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><span class="dropdown-item-text small text-muted">{{ auth()->user()->email }}</span></li>
@@ -121,82 +239,81 @@
         </div>
     </header>
 
-    <nav class="cork-nav">
+    <nav class="site-nav">
         <div class="container-xxl">
-            <ul class="nav">
-                <a class="nav-link d-flex align-items-center gap-2 py-3 px-3 {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-                    Dashboard
+            <div class="d-flex d-md-none align-items-center gap-2 nav-toolbar">
+                <button type="button" class="nav-toggle-btn d-flex align-items-center flex-shrink-0" id="navToggleBtn" aria-expanded="false" aria-controls="adminNavList">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+                    Menú
+                </button>
+                <div class="input-group flex-grow-1">
+                    <span class="input-group-text bg-light border-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </span>
+                    <input type="text" class="form-control bg-light border-0" placeholder="Search..." disabled>
+                </div>
+            </div>
+        <div class="d-flex nav-list py-2 gap-2 align-items-center flex-wrap" id="adminNavList">
+            <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                Dashboard
+            </a>
+
+            <div class="dropdown">
+                <a href="#" class="nav-link dropdown-toggle {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}" data-bs-toggle="dropdown" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    Posts
                 </a>
-                <li class="nav-item dropdown" x-data="{ open: false }" @click.away="open = false" style="position: relative;">
-                    <a href="#"
-                       @click.prevent="open = !open"
-                       class="nav-link active d-flex align-items-center gap-2 py-3 px-3"
-                       style="cursor:pointer;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                        Posts
-                    </a>
-                    <ul x-show="open"
-                        style="display:none; position:absolute; top:100%; left:0; min-width:200px; margin:4px 0 0; padding:8px 0; list-style:none; background:#fff; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.15); z-index:1050;">
-                        <li><a href="{{ route('admin.posts.index') }}" class="{{ request()->routeIs('admin.posts.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Todos los posts</a></li>
-                        <li><a href="{{ route('admin.autors.index') }}" class="{{ request()->routeIs('admin.autors.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Autores</a></li>
-                        <li><a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Categorías</a></li>
-                        <li><a href="{{ route('admin.tags.index') }}" class="{{ request()->routeIs('admin.tags.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Tags</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown" x-data="{ open: false }" @click.away="open = false" style="position: relative;">
-                    <a href="#"
-                    @click.prevent="open = !open"
-                    class="nav-link active d-flex align-items-center gap-2 py-3 px-3"
-                    style="cursor:pointer;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
-                        Podcasts
-                    </a>
-                    <ul x-show="open"
-                        style="display:none; position:absolute; top:100%; left:0; min-width:200px; margin:4px 0 0; padding:8px 0; list-style:none; background:#fff; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.15); z-index:1050;">
-                        <li><a href="{{ route('admin.podcasts.index') }}" class="{{ request()->routeIs('admin.podcasts.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Podcasts</a></li>
-                        <li><a href="{{ route('admin.episodes.index')}}" class="{{ request()->routeIs('admin.episodes.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Episodios</a></li>
-                        <li><a href="{{ route('admin.autors.index') }}" class="{{ request()->routeIs('admin.autors.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Autores</a></li>
-                        <li><a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Categorías</a></li>
-                        <li><a href="{{ route('admin.tags.index') }}" class="{{ request()->routeIs('admin.tags.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Tags</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown" x-data="{ open: false }" @click.away="open = false" style="position: relative;">
-                    <a href="#"
-                    @click.prevent="open = !open"
-                    class="nav-link active d-flex align-items-center gap-2 py-3 px-3"
-                    style="cursor:pointer;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-                        Himnos
-                    </a>
-                    <ul x-show="open"
-                        style="display:none; position:absolute; top:100%; left:0; min-width:200px; margin:4px 0 0; padding:8px 0; list-style:none; background:#fff; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.15); z-index:1050;">
-                        <li><a href="{{ route('admin.himnarios.index') }}" class="{{ request()->routeIs('admin.podcasts.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Himnarios</a></li>
-                        <li><a href="{{ route('admin.tonos.index')}}" class="{{ request()->routeIs('admin.episodes.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Tonos</a></li>
-                        <li><a href="{{ route('admin.autors.index') }}" class="{{ request()->routeIs('admin.autors.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Autores</a></li>
-                        <li><a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Categorías</a></li>
-                        <li><a href="{{ route('admin.himnos.index') }}" class="{{ request()->routeIs('admin.tags.*') ? 'fw-bold' : '' }}" style="display:block; padding:8px 16px; text-decoration:none; color:#212529;">Himnos</a></li>
-                    </ul>
-                </li>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.posts.*') ? 'fw-bold' : '' }}" href="{{ route('admin.posts.index') }}">Todos los posts</a></li>
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.autors.*') ? 'fw-bold' : '' }}" href="{{ route('admin.autors.index') }}">Autores</a></li>
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.categories.*') ? 'fw-bold' : '' }}" href="{{ route('admin.categories.index') }}">Categorías</a></li>
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.tags.*') ? 'fw-bold' : '' }}" href="{{ route('admin.tags.index') }}">Tags</a></li>
+                </ul>
+            </div>
 
-                @can('manage users')
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center gap-2 py-3 px-3 {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                            Usuarios
-                        </a>
-                    </li>
-                @endcan
+            <div class="dropdown">
+                <a href="#" class="nav-link dropdown-toggle {{ request()->routeIs('admin.podcasts.*') || request()->routeIs('admin.episodes.*') ? 'active' : '' }}" data-bs-toggle="dropdown" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+                    Podcasts
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.podcasts.*') ? 'fw-bold' : '' }}" href="{{ route('admin.podcasts.index') }}">Podcasts</a></li>
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.episodes.*') ? 'fw-bold' : '' }}" href="{{ route('admin.episodes.index')}}">Episodios</a></li>
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.autors.*') ? 'fw-bold' : '' }}" href="{{ route('admin.autors.index') }}">Autores</a></li>
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.categories.*') ? 'fw-bold' : '' }}" href="{{ route('admin.categories.index') }}">Categorías</a></li>
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.tags.*') ? 'fw-bold' : '' }}" href="{{ route('admin.tags.index') }}">Tags</a></li>
+                </ul>
+            </div>
 
-                @can('manage users')
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center gap-2 py-3 px-3 {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}" href="{{ route('admin.roles.index') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                            Roles
-                        </a>
-                    </li>
-                @endcan
-            </ul>
+            <div class="dropdown">
+                <a href="#" class="nav-link dropdown-toggle {{ request()->routeIs('admin.himnarios.*') || request()->routeIs('admin.tonos.*') || request()->routeIs('admin.himnos.*') ? 'active' : '' }}" data-bs-toggle="dropdown" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    Himnos
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.himnarios.*') ? 'fw-bold' : '' }}" href="{{ route('admin.himnarios.index') }}">Himnarios</a></li>
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.tonos.*') ? 'fw-bold' : '' }}" href="{{ route('admin.tonos.index')}}">Tonos</a></li>
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.autors.*') ? 'fw-bold' : '' }}" href="{{ route('admin.autors.index') }}">Autores</a></li>
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.categories.*') ? 'fw-bold' : '' }}" href="{{ route('admin.categories.index') }}">Categorías</a></li>
+                    <li><a class="dropdown-item {{ request()->routeIs('admin.himnos.*') ? 'fw-bold' : '' }}" href="{{ route('admin.himnos.index') }}">Himnos</a></li>
+                </ul>
+            </div>
+
+            @can('manage users')
+                <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Usuarios
+                </a>
+            @endcan
+
+            @can('manage users')
+                <a class="nav-link {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}" href="{{ route('admin.roles.index') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Roles
+                </a>
+            @endcan
+        </div>
         </div>
     </nav>
 
@@ -204,5 +321,64 @@
         @yield('content')
     </main>
     @livewireScripts
+
+    <script>
+        (function () {
+            var body = document.body;
+            var btn = document.getElementById('themeToggleBtn');
+            if (!btn) { return; }
+            var moonIcon = btn.querySelector('[data-icon="moon"]');
+            var sunIcon = btn.querySelector('[data-icon="sun"]');
+
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    body.classList.add('dark');
+                    moonIcon.classList.add('d-none');
+                    sunIcon.classList.remove('d-none');
+                } else {
+                    body.classList.remove('dark');
+                    sunIcon.classList.add('d-none');
+                    moonIcon.classList.remove('d-none');
+                }
+            }
+
+            var saved = null;
+            try { saved = localStorage.getItem('pye-theme'); } catch (e) {}
+            applyTheme(saved === 'dark' ? 'dark' : 'light');
+
+            btn.addEventListener('click', function () {
+                var next = body.classList.contains('dark') ? 'light' : 'dark';
+                applyTheme(next);
+                try { localStorage.setItem('pye-theme', next); } catch (e) {}
+            });
+        })();
+
+        (function () {
+            var navToggleBtn = document.getElementById('navToggleBtn');
+            var navList = document.getElementById('adminNavList');
+            if (!navToggleBtn || !navList) return;
+
+            function closeNav() {
+                navList.classList.remove('show');
+                navToggleBtn.setAttribute('aria-expanded', 'false');
+            }
+
+            navToggleBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var isOpen = navList.classList.toggle('show');
+                navToggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            });
+
+            document.addEventListener('click', function (e) {
+                if (!navList.classList.contains('show')) return;
+                if (navList.contains(e.target) || navToggleBtn.contains(e.target)) return;
+                closeNav();
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 768) closeNav();
+            });
+        })();
+    </script>
 </body>
 </html>

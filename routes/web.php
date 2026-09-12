@@ -161,6 +161,7 @@ Route::get('/audio/episodio/{episode}', function (Episode $episode) {
     return response()->file($path);
 })->name('audio.episode');
 
+// ADMIN
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', function () {

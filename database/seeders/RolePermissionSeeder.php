@@ -20,6 +20,10 @@ class RolePermissionSeeder extends Seeder
         }
 
         Permission::firstOrCreate(['name' => 'manage users']);
+        Permission::firstOrCreate(['name' => 'manage posts']);
+        Permission::firstOrCreate(['name' => 'manage podcasts']);
+        Permission::firstOrCreate(['name' => 'manage himnos']);
+        Permission::firstOrCreate(['name' => 'manage taxonomies']);
 
         $admin = Role::firstOrCreate(['name' => 'Admin']);
         $admin->syncPermissions(Permission::all());

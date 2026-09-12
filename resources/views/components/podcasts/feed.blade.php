@@ -113,43 +113,36 @@ new class extends Component {
         </div>
     </div>
 
-    <div class="row">
+    <div class="podcast-list">
         @forelse ($this->episodes as $episode)
-            <div class="col-md-6 mb-4">
-                <a href="{{ route('podcasts.show', $episode) }}" class="card style-3 text-decoration-none text-reset">
-                    <div class="card-img-top position-relative"
-                         style="background-image:url('{{ $episode->podcast->cover_image ? asset('storage/'.$episode->podcast->cover_image) : asset('images/grid-blog-style-1.jpg') }}'); background-size:cover; background-position:center; min-height:180px;">
+            <div class="podcast-item position-relative">
+                <img src="{{ $episode->podcast->cover_image ? asset('storage/'.$episode->podcast->cover_image) : asset('images/grid-blog-style-1.jpg') }}"
+                     class="podcast-thumb" alt="{{ $episode->title }}">
+                <div class="podcast-body">
+                    <div class="podcast-meta">
+                        <span class="podcast-meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            {{ $episode->published_at?->translatedFormat('d M, Y') }}
+                        </span>
                         @if ($episode->duration)
-                            <span class="position-absolute bottom-0 end-0 m-2 badge bg-dark">
-                                {{ sprintf('%d:%02d', intdiv($episode->duration, 60), $episode->duration % 60) }}
+                            <span class="podcast-meta-sep">&bull;</span>
+                            <span class="podcast-meta-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                {{ (int) ceil($episode->duration / 60) }} mins
                             </span>
                         @endif
                     </div>
-                    <div class="card-body px-0 py-0 align-self-center">
-                        <span class="badge bg-primary-subtle text-primary mb-2">{{ $episode->podcast->title }}</span>
-                        <h5 class="card-title mb-3">{{ $episode->title }}</h5>
-                        <p class="card-text text-muted small mb-0">{{ \Illuminate\Support\Str::limit($episode->summary, 80) }}</p>
-                        <div class="media mt-4 mb-0 pt-1">
-                            @if ($episode->autor->photo)
-                                <img src="{{ asset('storage/'.$episode->autor->photo) }}" class="card-media-image me-3" alt="{{ $episode->autor->name }}">
-                            @else
-                                <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center fw-bold me-3 flex-shrink-0"
-                                     style="width:45px;height:45px;font-size:.9rem;">
-                                    {{ collect(explode(' ', $episode->autor->name))->map(fn ($p) => mb_substr($p, 0, 1))->join('') }}
-                                </div>
-                            @endif
-                            <div class="media-body">
-                                <h4 class="media-heading mb-1">{{ $episode->autor->name }}</h4>
-                                <p class="media-text">{{ $episode->published_at?->format('d M') }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+                    <h5 class="podcast-title">
+                        <a href="{{ route('podcasts.show', $episode) }}" class="stretched-link text-reset text-decoration-none">{{ $episode->title }}</a>
+                    </h5>
+                    <p class="podcast-desc">{{ \Illuminate\Support\Str::limit($episode->summary, 110) }}</p>
+                </div>
+                <span class="podcast-play" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </span>
             </div>
         @empty
-            <div class="col-12">
-                <p class="text-muted">No se encontraron episodios.</p>
-            </div>
+            <p class="text-muted">No se encontraron episodios.</p>
         @endforelse
     </div>
 
