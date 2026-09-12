@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', config('app.name', 'Peregrinos y Extranjeros'))</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/brand/apple-touch-icon.png') }}">
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
 
     {{-- Bootstrap + overrides base de CORK (botones, cards, badges, variables de color).
@@ -341,15 +342,23 @@
                 font-size: 2.5rem;
             }
         }
+
+        /* Logo de marca */
+        .site-logo { height: 32px; width: auto; }
+        body.dark .site-logo { filter: invert(1); }
+        .footer-logo { height: 22px; width: auto; opacity: .85; }
+        body.dark .footer-logo { filter: invert(1); }
+        @media (max-width: 575.98px) {
+            .site-logo { height: 26px; }
+        }
     </style>
 </head>
 <body class="bg-light">
 
     <header class="site-header">
         <div class="container-xxl d-flex align-items-center justify-content-between py-3 gap-3">
-            <a href="{{ route('home') }}" class="brand d-flex align-items-center gap-2 text-decoration-none text-dark fw-bold flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4361ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V10l7-6 7 6v11"/><path d="M12 21v-6"/></svg>
-                Peregrinos y Extranjeros
+            <a href="{{ route('home') }}" class="brand d-flex align-items-center text-decoration-none text-dark fw-bold flex-shrink-0">
+                <img src="{{ asset('images/brand/logo.png') }}" alt="Peregrinos y Extranjeros" class="site-logo">
             </a>
 
             <form action="{{ route('search') }}" method="GET" class="d-none d-md-block flex-grow-1" style="max-width: 480px;">
@@ -418,8 +427,11 @@
     </main>
 
     <footer class="site-footer border-top bg-white py-3 mt-5">
-        <div class="container-xxl d-flex justify-content-between text-muted small">
-            <span>Copyright &copy; {{ date('Y') }} Peregrinos y Extranjeros. Todos los derechos reservados.</span>
+        <div class="container-xxl d-flex justify-content-between align-items-center text-muted small">
+            <span class="d-flex align-items-center gap-2">
+                <img src="{{ asset('images/brand/logo-icon.png') }}" alt="" class="footer-logo">
+                Copyright &copy; {{ date('Y') }} Peregrinos y Extranjeros. Todos los derechos reservados.
+            </span>
             <span>Dios te bendiga
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             </span>

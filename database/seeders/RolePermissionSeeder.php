@@ -29,42 +29,9 @@ class RolePermissionSeeder extends Seeder
         $admin = Role::firstOrCreate(['name' => 'Admin']);
         $admin->syncPermissions(Permission::all());
 
-        Role::firstOrCreate(['name' => 'Post'])->syncPermissions([
-            'ver posts', 'crear posts', 'editar posts', 'eliminar posts',
-        ]);
+        // Los demás roles (por módulo, por usuario, etc.) se definen manualmente
+        // desde el panel de administración según se necesiten, no se crean por defecto aquí.
 
-        Role::firstOrCreate(['name' => 'Autor'])->syncPermissions([
-            'ver autores', 'crear autores', 'editar autores', 'eliminar autores',
-        ]);
-
-        Role::firstOrCreate(['name' => 'Categoria'])->syncPermissions([
-            'ver categorias', 'crear categorias', 'editar categorias', 'eliminar categorias',
-        ]);
-
-        Role::firstOrCreate(['name' => 'Tag'])->syncPermissions([
-            'ver tags', 'crear tags', 'editar tags', 'eliminar tags',
-        ]);
-
-        Role::firstOrCreate(['name' => 'Podcasts'])->syncPermissions([
-            'ver podcasts', 'crear podcasts', 'editar podcasts', 'eliminar podcasts',
-        ]);
-
-        Role::firstOrCreate(['name' => 'Episodios'])->syncPermissions([
-            'ver episodios', 'crear episodios', 'editar episodios', 'eliminar episodios',
-        ]);
-
-        Role::firstOrCreate(['name' => 'Himnos'])->syncPermissions([
-            'ver himnos', 'crear himnos', 'editar himnos', 'eliminar himnos',
-        ]);
-
-        Role::firstOrCreate(['name' => 'Himnarios'])->syncPermissions([
-            'ver himnarios', 'crear himnarios', 'editar himnarios', 'eliminar himnarios',
-        ]);
-
-        Role::firstOrCreate(['name' => 'Tonos'])->syncPermissions([
-            'ver tonos', 'crear tonos', 'editar tonos', 'eliminar tonos',
-        ]);
-
-        $this->command->info('Permisos granulares y roles actualizados.');
+        $this->command->info('Permisos granulares y rol Admin actualizados.');
     }
 }

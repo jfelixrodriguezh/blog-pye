@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Admin') — {{ config('app.name', 'Peregrinos y Extranjeros') }}</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/brand/apple-touch-icon.png') }}">
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
 
     @vite([
         'resources/css/app.scss',
         'resources/scss/light/assets/main.scss',
+        'resources/scss/dark/assets/main.scss',
         'resources/js/app.js',
     ])
     <style>
@@ -187,6 +189,10 @@
             padding: 0.75rem 1.25rem;
             letter-spacing: 1px;
         }
+
+        /* Logo de marca */
+        .site-logo { height: 30px; width: auto; }
+        body.dark .site-logo { filter: invert(1); }
     </style>
     @livewireStyles
 </head>
@@ -194,12 +200,11 @@
 
     <header class="site-header">
         <div class="container-xxl d-flex align-items-center justify-content-between py-3 gap-3">
-            <a href="{{ route('admin.posts.index') }}" class="d-flex align-items-center gap-2 text-decoration-none text-dark fw-bold fs-4 flex-shrink-0">
-                <span class="rounded-3 bg-primary text-white d-flex align-items-center justify-content-center" style="width:32px;height:32px;font-size:1rem;">C</span>
-                Peregrinos y Extranjeros
+            <a href="{{ route('admin.posts.index') }}" class="d-flex align-items-center text-decoration-none text-dark fw-bold flex-shrink-0">
+                <img src="{{ asset('images/brand/logo.png') }}" alt="Peregrinos y Extranjeros" class="site-logo">
             </a>
 
-            <div class="d-none d-md-block flex-grow-1" style="max-width: 480px;">
+            {{-- <div class="d-none d-md-block flex-grow-1" style="max-width: 480px;">
                 <div class="input-group">
                     <span class="input-group-text bg-light border-0">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -207,7 +212,7 @@
                     <input type="text" class="form-control bg-light border-0" placeholder="Search..." disabled>
 
                 </div>
-            </div>
+            </div> --}}
 
             <div class="d-flex align-items-center gap-3 flex-shrink-0">
                 <button type="button" class="btn btn-link p-0 text-muted theme-toggle-btn" id="themeToggleBtn" title="Cambiar tema">
