@@ -19,6 +19,12 @@ new class extends Component {
     public bool $showModal = false;
     public ?Autor $editing = null;
 
+    // Cambia cada vez que se abre el modal (crear o editar) para forzar
+    // que Alpine vuelva a inicializar el editor Quill con el contenido
+    // correcto (el div del editor usa wire:ignore, así que Livewire no
+    // lo actualiza solo con un cambio de $description).
+    public int $formToken = 0;
+
     public string $name = '';
     public string $description = '';
 
@@ -41,6 +47,7 @@ new class extends Component {
     {
         $this->reset(['editing', 'name', 'description', 'newPhoto']);
         $this->resetValidation();
+        $this->formToken++;
         $this->showModal = true;
     }
 
@@ -50,6 +57,7 @@ new class extends Component {
         $this->name = $autor->name;
         $this->description = $autor->description ?? '';
         $this->resetValidation();
+        $this->formToken++;
         $this->showModal = true;
     }
 
@@ -57,7 +65,7 @@ new class extends Component {
     {
         $this->validate([
             'name' => 'required|min:3|max:255',
-            'description' => 'nullable|max:1000',
+            'description' => 'nullable|max:5000',
             'newPhoto' => 'nullable|image|max:2048',
         ]);
 
@@ -150,6 +158,9 @@ new class extends Component {
                             <td class="text-muted">{{ $autor->posts_count }}</td>
                             <td class="text-end pe-4">
                                 <div class="d-flex justify-content-end gap-1">
+                                    <a href="{{ route('autor.show', $autor) }}" target="_blank" rel="noopener" class="btn btn-sm btn-light text-muted" title="Ver perfil público">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    </a>
                                     <button type="button" wire:click="edit({{ $autor->id }})" class="btn btn-sm btn-light text-muted" title="Editar">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                                     </button>
@@ -198,7 +209,7 @@ new class extends Component {
          class="modal-overlay-centered">
 
         <div @click.away="$wire.showModal = false"
-             style="background:#fff; border-radius:12px; width:100%; max-width:520px; margin:16px;">
+             style="background:#fff; border-radius:12px; width:100%; max-width:760px; margin:16px;">
 
             <form wire:submit="save">
                 <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
@@ -229,9 +240,33 @@ new class extends Component {
                     </div>
                     <div class="mb-0">
                         <label class="form-label">Descripción</label>
-                        <textarea class="form-control @error('description') is-invalid @enderror"
-                                  rows="4" wire:model="description"></textarea>
-                        @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        <div wire:ignore wire:key="autor-editor-{{ $formToken }}" x-data="{
+                            init() {
+                                const quill = new Quill(this.$refs.editor, {
+                                    theme: 'snow',
+                                    modules: {
+                                        toolbar: [
+                                            ['bold', 'italic', 'underline', 'strike'],
+                                            ['blockquote'],
+                                            [{ header: [1, 2, 3, false] }],
+                                            [{ list: 'ordered' }, { list: 'bullet' }],
+                                            [{ align: [] }],
+                                            ['link'],
+                                            ['clean'],
+                                        ],
+                                    },
+                                });
+
+                                quill.root.innerHTML = @js($description);
+
+                                quill.on('text-change', () => {
+                                    $wire.set('description', quill.root.innerHTML);
+                                });
+                            }
+                        }">
+                            <div x-ref="editor" style="min-height:200px; background:#fff;"></div>
+                        </div>
+                        @error('description') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
                     </div>
                 </div>
 

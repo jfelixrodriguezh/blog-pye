@@ -48,15 +48,17 @@
                 <h1 class="fw-bold mb-3 text-center">{{ $post->title }}</h1>
 
                 <div class="d-flex align-items-center gap-2 pb-4 border-bottom">
-                    @if ($post->autor->photo)
-                        <img src="{{ asset('storage/'.$post->autor->photo) }}" class="rounded-circle flex-shrink-0" style="width:44px;height:44px;object-fit:cover;" alt="{{ $post->autor->name }}">
-                    @else
-                        <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center fw-bold flex-shrink-0" style="width:44px;height:44px;">
-                            {{ collect(explode(' ', $post->autor->name))->map(fn ($p) => mb_substr($p, 0, 1))->join('') }}
-                        </div>
-                    @endif
+                    <a href="{{ route('autor.show', $post->autor) }}" class="flex-shrink-0">
+                        @if ($post->autor->photo)
+                            <img src="{{ asset('storage/'.$post->autor->photo) }}" class="rounded-circle" style="width:44px;height:44px;object-fit:cover;" alt="{{ $post->autor->name }}">
+                        @else
+                            <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center fw-bold" style="width:44px;height:44px;">
+                                {{ collect(explode(' ', $post->autor->name))->map(fn ($p) => mb_substr($p, 0, 1))->join('') }}
+                            </div>
+                        @endif
+                    </a>
                     <div class="text-muted small d-flex align-items-center gap-2 flex-wrap">
-                        <span class="fw-semibold text-dark">{{ $post->autor->name }}</span>
+                        <a href="{{ route('autor.show', $post->autor) }}" class="fw-semibold text-dark text-decoration-none">{{ $post->autor->name }}</a>
                         <span>&bull;</span>
                         <span>{{ $post->published_at?->translatedFormat('d \d\e F \d\e Y') }}</span>
                         <span>&bull;</span>
@@ -95,21 +97,7 @@
         </div>
 
         <div class="col-lg-3">
-            <div class="card border-0 shadow-sm mb-4 text-center">
-                <div class="card-body">
-                    @if ($post->autor->photo)
-                        <img src="{{ asset('storage/'.$post->autor->photo) }}" class="rounded-circle mb-3" style="width:80px;height:80px;object-fit:cover;" alt="{{ $post->autor->name }}">
-                    @else
-                        <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center fw-bold mx-auto mb-3" style="width:80px;height:80px;font-size:1.5rem;">
-                            {{ collect(explode(' ', $post->autor->name))->map(fn ($p) => mb_substr($p, 0, 1))->join('') }}
-                        </div>
-                    @endif
-                    <div class="fw-bold mb-2">{{ $post->autor->name }}</div>
-                    @if ($post->autor->description)
-                        <p class="text-muted small mb-0">{{ $post->autor->description }}</p>
-                    @endif
-                </div>
-            </div>
+            <x-autor-card :autor="$post->autor" />
 
             @if ($related->isNotEmpty())
                 <div class="card border-0 shadow-sm mb-4">

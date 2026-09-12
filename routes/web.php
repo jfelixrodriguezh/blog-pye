@@ -140,6 +140,22 @@ Route::get('/himnos/{himnario}/{numero}', function (Himnario $himnario, int $num
     return view('himnos.show', ['himno' => $himno]);
 })->name('himnos.show');
 
+Route::get('/youtube', function () {
+    return view('youtube.index');
+})->name('youtube.index');
+
+Route::get('/autor/{autor}', function (Autor $autor) {
+    return view('autor.show', [
+        'autor' => $autor,
+        'postsCount' => $autor->posts()->where('status', 'published')->count(),
+        'episodesCount' => $autor->episodes()->where('status', 'published')->count(),
+        'himnosCount' => $autor->himnos()->where('status', 'published')->count(),
+        'recentPosts' => $autor->posts()->where('status', 'published')->latest('published_at')->take(6)->get(),
+        'recentEpisodes' => $autor->episodes()->where('status', 'published')->with('podcast')->latest('published_at')->take(6)->get(),
+        'recentHimnos' => $autor->himnos()->where('status', 'published')->with('himnario')->orderBy('titulo')->take(6)->get(),
+    ]);
+})->name('autor.show');
+
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
@@ -229,6 +245,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::view('/autors', 'admin.autors.index')->name('autors.index');
         Route::view('/categories', 'admin.categories.index')->name('categories.index');
         Route::view('/tags', 'admin.tags.index')->name('tags.index');
+    });
+
+    Route::middleware('permission:manage videos')->group(function () {
+        Route::view('/videos', 'admin.videos.index')->name('videos.index');
     });
 });
 

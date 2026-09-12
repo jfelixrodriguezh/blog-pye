@@ -17,4 +17,14 @@ class Autor extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+    public function episodes()
+    {
+        return $this->hasMany(Episode::class);
+    }
+
+    public function himnos()
+    {
+        return $this->hasMany(Himno::class);
+    }
 }

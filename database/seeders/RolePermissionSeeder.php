@@ -24,6 +24,7 @@ class RolePermissionSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'manage podcasts']);
         Permission::firstOrCreate(['name' => 'manage himnos']);
         Permission::firstOrCreate(['name' => 'manage taxonomies']);
+        Permission::firstOrCreate(['name' => 'manage videos']);
 
         $admin = Role::firstOrCreate(['name' => 'Admin']);
         $admin->syncPermissions(Permission::all());

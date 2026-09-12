@@ -254,11 +254,14 @@
             color: var(--bs-primary);
             transition: background .2s ease, color .2s ease, border-color .2s ease;
         }
-        .podcast-item:hover .podcast-play {
+        .podcast-item:hover .podcast-play,
+        .himno-item:hover .podcast-play {
             background: var(--bs-primary);
             border-color: var(--bs-primary);
             color: #fff;
         }
+        .himno-item { transition: box-shadow .2s ease; }
+        .himno-item:hover { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); }
         @media (max-width: 575.98px) {
             .podcast-item { padding: 14px; gap: 14px; }
             .podcast-thumb { width: 56px; height: 56px; }
@@ -268,6 +271,58 @@
         body.dark .podcast-meta,
         body.dark .podcast-desc { color: #888ea8; }
         body.dark .podcast-play { border-color: #191e3a; }
+
+        /* Tarjetas de video de YouTube (sección Youtube) */
+        .video-card { cursor: pointer; }
+        .video-thumb-wrap {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: .75rem;
+            background: #000;
+        }
+        .video-thumb {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+            transition: transform .2s ease;
+        }
+        .video-card:hover .video-thumb { transform: scale(1.03); }
+        .video-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, .55);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s ease;
+        }
+        .video-card:hover .video-play { background: var(--bs-primary); }
+        .video-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #3b3f5c;
+        }
+        .video-card:hover .video-title { color: var(--bs-primary); }
+        body.dark .video-title { color: #e0e6ed; }
+        .video-modal .modal-content { background: transparent; }
+        .video-modal .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+            opacity: .9;
+        }
+
+        /* Perfil público de autor */
+        .autor-card { transition: box-shadow .2s ease; }
+        .autor-card:hover { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); }
+        .autor-stat { border-radius: 12px; }
+        .autor-bio :last-child { margin-bottom: 0; }
     </style>
 </head>
 <body class="bg-light">
@@ -362,6 +417,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
                     Himnos
                 </a>
+                <a class="nav-link {{ request()->routeIs('youtube.*') ? 'active' : '' }}" href="{{ route('youtube.index') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+                    Youtube
+                </a>
             </div>
         </div>
     </nav>
@@ -436,6 +495,23 @@
 
             window.addEventListener('resize', function () {
                 if (window.innerWidth >= 768) closeNav();
+            });
+        })();
+
+        (function () {
+            document.addEventListener('shown.bs.modal', function (e) {
+                if (!e.target.classList.contains('video-modal')) return;
+                var iframe = e.target.querySelector('.video-modal-iframe');
+                if (iframe && iframe.dataset.src) {
+                    var sep = iframe.dataset.src.indexOf('?') === -1 ? '?' : '&';
+                    iframe.src = iframe.dataset.src + sep + 'autoplay=1';
+                }
+            });
+
+            document.addEventListener('hidden.bs.modal', function (e) {
+                if (!e.target.classList.contains('video-modal')) return;
+                var iframe = e.target.querySelector('.video-modal-iframe');
+                if (iframe) iframe.src = '';
             });
         })();
     </script>

@@ -132,7 +132,8 @@ new class extends Component {
 
     <div class="d-flex flex-column gap-2">
         @forelse ($this->himnos as $himno)
-            <div class="card border-0 shadow-sm">
+            <a href="{{ route('himnos.show', ['himnario' => $himno->himnario, 'numero' => $himno->numero]) }}"
+               class="card himno-item border-0 shadow-sm text-decoration-none text-reset">
                 <div class="card-body d-flex align-items-center gap-3 py-3">
                     <div class="rounded-3 bg-primary-subtle text-primary d-flex align-items-center justify-content-center flex-shrink-0" style="width:48px;height:48px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
@@ -142,12 +143,11 @@ new class extends Component {
                         <div class="col-md-4 text-muted">{{ $himno->himnario->nombre }}</div>
                         <div class="col-md-3 text-muted">{{ $himno->autor->name ?? '—' }}</div>
                     </div>
-                    <a href="{{ route('himnos.show', ['himnario' => $himno->himnario, 'numero' => $himno->numero]) }}"
-                       class="btn btn-primary rounded-3 d-flex align-items-center justify-content-center flex-shrink-0" style="width:44px;height:44px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                    </a>
+                    <span class="podcast-play himno-play flex-shrink-0" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
                 </div>
-            </div>
+            </a>
         @empty
             <p class="text-muted text-center">No se encontraron himnos.</p>
         @endforelse

@@ -45,15 +45,17 @@
 
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4 pb-4 border-bottom">
                     <div class="d-flex align-items-center gap-2">
-                        @if ($episode->autor->photo)
-                            <img src="{{ asset('storage/'.$episode->autor->photo) }}" class="rounded-circle" style="width:44px;height:44px;object-fit:cover;" alt="{{ $episode->autor->name }}">
-                        @else
-                            <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center fw-bold" style="width:44px;height:44px;">
-                                {{ collect(explode(' ', $episode->autor->name))->map(fn ($p) => mb_substr($p, 0, 1))->join('') }}
-                            </div>
-                        @endif
+                        <a href="{{ route('autor.show', $episode->autor) }}" class="flex-shrink-0">
+                            @if ($episode->autor->photo)
+                                <img src="{{ asset('storage/'.$episode->autor->photo) }}" class="rounded-circle" style="width:44px;height:44px;object-fit:cover;" alt="{{ $episode->autor->name }}">
+                            @else
+                                <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center fw-bold" style="width:44px;height:44px;">
+                                    {{ collect(explode(' ', $episode->autor->name))->map(fn ($p) => mb_substr($p, 0, 1))->join('') }}
+                                </div>
+                            @endif
+                        </a>
                         <div class="text-muted small">
-                            <span class="fw-semibold text-dark">{{ $episode->autor->name }}</span>
+                            <a href="{{ route('autor.show', $episode->autor) }}" class="fw-semibold text-dark text-decoration-none">{{ $episode->autor->name }}</a>
                             <br>
                             <span>{{ $episode->published_at?->translatedFormat('d \d\e F \d\e Y') }}</span>
                         </div>
@@ -116,21 +118,7 @@
         </div>
 
         <div class="col-lg-3">
-            <div class="card border-0 shadow-sm mb-4 text-center">
-                <div class="card-body">
-                    @if ($episode->autor->photo)
-                        <img src="{{ asset('storage/'.$episode->autor->photo) }}" class="rounded-circle mb-3" style="width:80px;height:80px;object-fit:cover;" alt="{{ $episode->autor->name }}">
-                    @else
-                        <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center fw-bold mx-auto mb-3" style="width:80px;height:80px;font-size:1.5rem;">
-                            {{ collect(explode(' ', $episode->autor->name))->map(fn ($p) => mb_substr($p, 0, 1))->join('') }}
-                        </div>
-                    @endif
-                    <div class="fw-bold mb-2">{{ $episode->autor->name }}</div>
-                    @if ($episode->autor->description)
-                        <p class="text-muted small mb-0">{{ $episode->autor->description }}</p>
-                    @endif
-                </div>
-            </div>
+            <x-autor-card :autor="$episode->autor" />
 
             @if ($related->isNotEmpty())
                 <div class="card border-0 shadow-sm mb-4">
