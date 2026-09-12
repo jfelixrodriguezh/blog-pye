@@ -22,7 +22,7 @@
     </nav>
 
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-9">
             <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
                 <div>
                     <h1 class="fw-bold mb-1">{{ $himno->titulo }}</h1>
@@ -75,16 +75,18 @@
             </div>
 
             @if ($himno->informacion)
-                <div class="mt-4 pt-4 border-top">
-                    <h5 class="fw-bold mb-3">Acerca de este himno</h5>
-                    <div class="himno-info ql-editor">
-                        {!! $himno->informacion !!}
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3">Acerca de este himno</h5>
+                        <div class="himno-info ql-editor">
+                            {!! $himno->informacion !!}
+                        </div>
                     </div>
                 </div>
             @endif
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             @if ($himno->autor)
                 <x-autor-card :autor="$himno->autor" />
             @endif

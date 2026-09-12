@@ -179,14 +179,14 @@ new class extends Component {
                 </div>
             </div>
 
-            <div class="card border-0 bg-dark text-white">
+            {{-- <div class="card border-0 bg-dark text-white">
                 <div class="card-body">
                     <h5 class="fw-bold mb-2">Únete a la comunidad</h5>
                     <p class="small text-white-50">Recibe contenido cada semana directo a tu correo. (Próximamente)</p>
                     <input type="email" class="form-control mb-2" placeholder="Tu correo electrónico" disabled>
                     <button class="btn btn-primary w-100" disabled>Suscribirme</button>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

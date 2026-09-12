@@ -323,6 +323,24 @@
         .autor-card:hover { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); }
         .autor-stat { border-radius: 12px; }
         .autor-bio :last-child { margin-bottom: 0; }
+        .autor-profile-photo {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+        .autor-profile-photo-fallback {
+            font-size: 4rem;
+        }
+        @media (max-width: 767.98px) {
+            .autor-profile-photo {
+                width: 160px;
+                height: 160px;
+            }
+            .autor-profile-photo-fallback {
+                font-size: 2.5rem;
+            }
+        }
     </style>
 </head>
 <body class="bg-light">

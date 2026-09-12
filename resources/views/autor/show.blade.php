@@ -6,16 +6,16 @@
     <div class="card border-0 shadow-sm mb-4 autor-profile-header">
         <div class="card-body p-4 p-lg-5">
             <div class="row align-items-center g-4">
-                <div class="col-md-auto text-center">
+                <div class="col-md-3 text-center">
                     @if ($autor->photo)
-                        <img src="{{ asset('storage/'.$autor->photo) }}" class="rounded-circle" style="width:120px;height:120px;object-fit:cover;" alt="{{ $autor->name }}">
+                        <img src="{{ asset('storage/'.$autor->photo) }}" class="autor-profile-photo" alt="{{ $autor->name }}">
                     @else
-                        <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center fw-bold mx-auto" style="width:120px;height:120px;font-size:2.25rem;">
+                        <div class="autor-profile-photo autor-profile-photo-fallback bg-primary-subtle text-primary d-flex align-items-center justify-content-center fw-bold mx-auto">
                             {{ collect(explode(' ', $autor->name))->map(fn ($p) => mb_substr($p, 0, 1))->join('') }}
                         </div>
                     @endif
                 </div>
-                <div class="col-md">
+                <div class="col-md-9">
                     <h1 class="fw-bold mb-2">{{ $autor->name }}</h1>
 
                     @if ($autor->description)

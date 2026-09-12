@@ -151,7 +151,7 @@ new class extends Component {
                                     @endif
                                     <div>
                                         <div class="fw-semibold">{{ $autor->name }}</div>
-                                        <div class="text-muted small">{{ $autor->description ? \Illuminate\Support\Str::limit($autor->description, 60) : 'Sin descripción' }}</div>
+                                        <div class="text-muted small">{{ $autor->description ? \Illuminate\Support\Str::limit(strip_tags($autor->description), 60) : 'Sin descripción' }}</div>
                                     </div>
                                 </div>
                             </td>
