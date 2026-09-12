@@ -148,7 +148,7 @@ new class extends Component {
 
     @if ($this->episodes->total() > 0)
         <div class="text-muted small mb-2">
-            Showing {{ $this->episodes->firstItem() }} to {{ $this->episodes->lastItem() }} of {{ $this->episodes->total() }} results
+            Mostrando {{ $this->episodes->firstItem() }} a {{ $this->episodes->lastItem() }} de {{ $this->episodes->total() }} resultadoss
         </div>
     @endif
 

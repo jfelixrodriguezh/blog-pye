@@ -358,7 +358,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                     </span>
                     <input type="text" name="q" value="{{ request('q') }}" class="form-control bg-light border-0" placeholder="Buscar...">
-                    <span class="input-group-text bg-light border-0 text-muted small d-none d-md-flex">Ctrl + /</span>
+
                 </div>
             </form>
 
@@ -368,36 +368,6 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-icon="sun" class="d-none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
                 </button>
 
-                @auth
-                    <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center text-decoration-none" data-bs-toggle="dropdown">
-                            @if (auth()->user()->photo)
-                                <img src="{{ asset('storage/'.auth()->user()->photo) }}" class="rounded-circle" style="width:36px;height:36px;object-fit:cover;" alt="{{ auth()->user()->name }}">
-                            @else
-                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width:36px;height:36px;font-size:.8rem;">
-                                    {{ collect(explode(' ', auth()->user()->name))->map(fn ($p) => mb_substr($p, 0, 1))->join('') }}
-                                </div>
-                            @endif
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><span class="dropdown-item-text small text-muted">{{ auth()->user()->email }}</span></li>
-                            @can('manage users')
-                                <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Panel admin</a></li>
-                            @endcan
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item">Cerrar sesión</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                @else
-                    <a href="{{ route('login') }}" class="text-dark" title="Iniciar sesión">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-                    </a>
-                @endauth
             </div>
         </div>
     </header>
